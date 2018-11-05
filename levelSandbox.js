@@ -11,7 +11,7 @@ class LevelSandbox {
     constructor() {
     	this.db = level(chainDB);
     }
-  
+
   	// Get data from levelDB with key (Promise)
   	getLevelDBData(key){
         let self = this; // because we are returning a promise we will need this to be able to reference 'this' inside the Promise constructor
@@ -30,7 +30,7 @@ class LevelSandbox {
             });
         });
     }
-  
+
   	// Add data to levelDB with key and value (Promise)
     addLevelDBData(key, value) {
         let self = this;
@@ -44,14 +44,30 @@ class LevelSandbox {
             });
         });
     }
-  
+
   	/**
      * Step 2. Implement the getBlocksCount() method
      */
     getBlocksCount() {
         let self = this;
         // Add your code here
-        
+        let count = 0;
+        return new Promise(function(resolve, reject) {
+            self.db.createReadStream()
+            .on('data', function (data) {
+                // count each object isnerted
+                count = count + 1
+            })
+            .on('error', function (err) {
+                // reject with error
+                console.log('Oh my!', err)
+            })
+            .on('close', function () {
+                // resolve with the count value
+                console.log('Stream closed')
+                resolve(count)
+            });
+        });
       }
 }
 

@@ -12,13 +12,13 @@ const db = new LevelSandboxClass.LevelSandbox();
         db.addLevelDBData(i, JSON.stringify(objAux).toString()).then((result) => {
         	if(!result) {
               console.log("Error Adding data");
-            }else {
+            } else {
               console.log(result);
             }
         }).catch((err) => { console.log(err); });
       	i++;
-		if (i < 10) { 
-          theLoop(i) 
+		if (i < 10) {
+          theLoop(i)
         } else {
         	db.getBlocksCount().then((count) => {
 	           console.log(`The id for your next object is: ${count}`);
